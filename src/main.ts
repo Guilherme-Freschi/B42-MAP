@@ -1,265 +1,135 @@
-/// <reference types="@workadventure/iframe-api-typings/iframe_api" />
+/// <reference types="@workadventure/iframe-api-typings" />
+
+import { Popup } from "@workadventure/iframe-api-typings";
+import "./roofs";
+import "./door";
 
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 
-console.log('Script started successfully');
+let popupPrivateOffice: Popup|null;
+let mapOverviewAction: any;
 
-async function extendedFeatures() {
-    try {
-        await bootstrapExtra()
-        console.log('Scripting API Extra loaded successfully');
+(async () => {
+    await WA.onInit();
+    await WA.players.configureTracking({
+      players: true,
+      movement: false,
+    });
+    await WA.player.getPosition();
+})();
 
-        // Place the countdown GIF inside of the cinema screen
-        const countdown = await WA.room.website.get('cinemaScreen');
-        countdown.x = 1670;
-        countdown.y = 802;
-        countdown.width = 320;
-        countdown.height = 240;
+// Waiting for the API to be ready
+WA.onInit().then(() => {
+    // If user is admin, name avec dark blue border
+    const userTag = WA.player.tags;
 
-        // Place the github repository card
-        const githubRepository = await WA.room.website.get('githubRepository');
-        githubRepository.x = 3272;
-        githubRepository.y = 1088;
-        githubRepository.width = 400;
-        githubRepository.height = 300;
-    } catch (error) {
-        console.error('Scripting API Extra ERROR',error);
+    if(userTag.includes("admin")) {
+        WA.player.setOutlineColor(27, 42, 65);
     }
-}
-extendedFeatures();
-
-// Manage the animated CTAs
-WA.room.onEnterZone('toRoom3', () => WA.room.hideLayer('doorTipSwitch'));
-WA.room.onLeaveZone('toRoom3', () => WA.room.showLayer('doorTipSwitch'));
-
-WA.room.onEnterZone('doorCode', () => WA.room.hideLayer('ctaDigitCodeSwitch'));
-WA.room.onLeaveZone('doorCode', () => WA.room.showLayer('ctaDigitCodeSwitch'));
-
-// Manage popups
-let currentPopup: any;
-
-const config = [
-    {
-        zone: 'needHelp',
-        message: 'Do you need some guidance? Meet us by going at the top left of the map!',
-        cta: []
-    },
-    {
-        zone: 'followUs1',
-        message: 'Bem vindo a B42!',
-        cta: [
-            {
-                label: 'Conheça a b42',
-                className: 'primary',
-                callback: () => WA.nav.openTab('https://www.b42.com.br/'),
-            } 
-        ]
-    },
-    {
-        zone: 'followUs2',
-        message: 'Hey! Have you already started following us?',
-        cta: [
-            {
-                label: 'LinkedIn',
-                className: 'primary',
-                callback: () => WA.nav.openTab('https://www.linkedin.com/company/workadventu-re'),
-            },
-            {
-                label: 'Twitter',
-                className: 'primary',
-                callback: () => WA.nav.openTab('https://twitter.com/workadventure_'),
-            }
-        ]
-    },
-    {
-        zone: 'followUs3',
-        message: 'Hey! Have you already started following us?',
-        cta: [
-            {
-                label: 'LinkedIn',
-                className: 'primary',
-                callback: () => WA.nav.openTab('https://www.linkedin.com/company/workadventu-re'),
-            },
-            {
-                label: 'Twitter',
-                className: 'primary',
-                callback: () => WA.nav.openTab('https://twitter.com/workadventure_'),
-            }
-        ]
-    },
-    {
-        zone: 'doorCode',
-        message: 'Hello, I\'m Mr Robot. The code is 5300.',
-        cta: []
-    },
-    {
-        zone: 'toRoom3',
-        message: 'Want to access the gaming room? Mr Robot can help you!',
-        cta: []
-    },
-    {
-        zone: 'meetDesk',
-        message: 'Learn more about WorkAdventure events and our ProductHunt launch!',
-        cta: [
-            {
-                label: 'Dismiss',
-                className: 'normal',
-                callback: () => WA.state.saveVariable('dontShowMeetPopup', true).then(() => closePopup()),
-            }
-        ]
-    },
-    {
-        zone: 'workDesk',
-        message: 'See how your virtual office could be. This is a small example of course ;)',
-        cta: [
-            {
-                label: 'Dismiss',
-                className: 'normal',
-                callback: () => WA.state.saveVariable('dontShowWorkPopup', true).then(() => closePopup()),
-            }
-        ]
-    },
-    {
-        zone: 'collaborateDesk',
-        message: 'Test and feel live integrations of collaborative software!',
-        cta: [
-            {
-                label: 'Dismiss',
-                className: 'normal',
-                callback: () => WA.state.saveVariable('dontShowCollaboratePopup', true).then(() => closePopup()),
-            }
-        ]
-    },
-    {
-        zone: 'playDesk',
-        message: 'Experience multi and solo games, directly embedded into WorkAdventure!',
-        cta: [
-            {
-                label: 'Dismiss',
-                className: 'normal',
-                callback: () => WA.state.saveVariable('dontShowPlayPopup', true).then(() => closePopup()),
-            }
-        ]
-    },
-    {
-        zone: 'createDesk',
-        message: 'Do you want to create your own map by yourself? See how here!',
-        cta: [
-            {
-                label: 'Dismiss',
-                className: 'normal',
-                callback: () => WA.state.saveVariable('dontShowCreatePopup', true).then(() => closePopup()),
-            }
-        ]
-    },
-    {
-        zone: 'webinar',
-        message: 'Sign up for our French webinar on the Future of Work: Where do we stand today in the transition to hybrid work?',
-        cta: [
-            {
-                label: 'Close',
-                className: 'normal',
-                callback: () => closePopup(),
-            },
-            {
-                label: 'Sign up',
-                className: 'primary',
-                callback: () => WA.nav.openCoWebSite('https://meetup.workadventu.re/future-of-work'),
-            }
-        ]
+    if(!WA.player.state.tutorialDone){
+        openTutorial();
     }
-]
 
-// Webinar
-/* Uncomment this if you want to display the webinar popup
-WA.room.onEnterZone('webinar', () => openPopup('webinar'));
-WA.room.onLeaveZone('webinar',() => {
-    closePopup()
-    WA.nav.closeCoWebSite()
-});
-*/
-
-// Need Help / Follow Us
-WA.room.onEnterZone('needHelp', () => openPopup('needHelp'));
-WA.room.onLeaveZone('needHelp', closePopup);
-
-WA.room.onEnterZone('followUs1', () => openPopup('followUs1'));
-WA.room.onLeaveZone('followUs1', closePopup);
-
-WA.room.onEnterZone('followUs2', () => openPopup('followUs2'));
-WA.room.onLeaveZone('followUs2', closePopup);
-
-WA.room.onEnterZone('followUs3', () => openPopup('followUs3'));
-WA.room.onLeaveZone('followUs3', closePopup);
-
-// Room desks
-WA.room.onEnterZone('meetDesk', () => {
-    const dontShow = WA.state.loadVariable('dontShowMeetPopup')
-    if (dontShow) return;
-
-    openPopup('meetDesk')
-});
-WA.room.onLeaveZone('meetDesk', closePopup);
-
-WA.room.onEnterZone('workDesk', () => {
-    const dontShow = WA.state.loadVariable('dontShowWorkPopup')
-    if (dontShow) return;
-
-    openPopup('workDesk')
-});
-WA.room.onLeaveZone('workDesk', closePopup);
-
-WA.room.onEnterZone('collaborateDesk', () => {
-    const dontShow = WA.state.loadVariable('dontShowCollaboratePopup')
-    if (dontShow) return;
-
-    openPopup('collaborateDesk')
-});
-WA.room.onLeaveZone('collaborateDesk', closePopup);
-
-WA.room.onEnterZone('playDesk', () => {
-    const dontShow = WA.state.loadVariable('dontShowPlayPopup')
-    if (dontShow) return;
-
-    openPopup('playDesk')
-});
-WA.room.onLeaveZone('playDesk', closePopup);
-
-WA.room.onEnterZone('createDesk', () => {
-    const dontShow = WA.state.loadVariable('dontShowCreatePopup')
-    if (dontShow) return;
-
-    openPopup('createDesk')
-});
-WA.room.onLeaveZone('createDesk', closePopup);
-
-// Manage the popups to open the Room3 door
-WA.room.onEnterZone('doorCode', () => openPopup('doorCode'));
-WA.room.onLeaveZone('doorCode', closePopup);
-
-WA.room.onEnterZone('toRoom3', () => {
-    const isDoorOpen = WA.state.loadVariable('room3Door')
-    if (isDoorOpen) return;
-
-    openPopup('toRoom3')
-});
-WA.room.onLeaveZone('toRoom3', closePopup);
-
-// Popup management functions
-function openPopup(zoneName: string) {
-    const popupName = zoneName + 'Popup'
-    const zone = config.find((item) => {
-        return item.zone == zoneName
+    WA.room.onLeaveLayer("start").subscribe(() => {
+        WA.ui.modal.closeModal();
     });
 
-    if (typeof zone !== 'undefined') {
-        // @ts-ignore otherwise we can't use zone.cta object
-        currentPopup = WA.ui.openPopup(popupName, zone.message, zone.cta)
+    WA.ui.actionBar.addButton({
+        id: 'map-btn',
+        // @ts-ignore
+        type: 'action',
+        imageSrc: 'https://hugoaverty.github.io/map-overview/img/map.svg',
+        toolTip: 'Map overview',
+        callback: () => {
+            openMapOverview();
+        }
+    });
+
+    // Open & Close popupPrivateOffice
+    WA.room.area.onEnter("popupPrivateOffice_area").subscribe(() => {
+        if(popupPrivateOffice) return;
+        popupPrivateOffice = WA.ui.openPopup("popupPrivateOffice", "Our private office serves as a restricted zone, exclusively accessible to our team members.", [{
+            label: "Close",
+            className: "primary",
+            callback: () => {
+                popupPrivateOffice?.close();
+                popupPrivateOffice = null;
+            }
+        }]);
+    });
+    WA.room.area.onLeave("popupPrivateOffice_area").subscribe(() => {
+        popupPrivateOffice?.close();
+        popupPrivateOffice = null;
+    })
+
+
+    WA.room.area.onEnter("zone_map_overview").subscribe(() => {
+        mapOverviewAction = WA.ui.displayActionMessage({
+            message: "Press 'SPACE' to display map overview and move to a specific zone. \n \n You can acces to map overview directly on the bottom nav !",
+            callback: () => {
+                openMapOverview();
+            }
+        });
+    });
+    WA.room.area.onLeave("zone_map_overview").subscribe(() => {
+        mapOverviewAction.remove();
+        WA.ui.modal.closeModal();
+    })
+
+    /*
+    const today = new Date();
+    const time = today.getHours() + ":" + today.getMinutes();
+
+    // EXEMPLE UTC+6
+    // IL EST 15H la bas
+    
+    console.log("CURRENT TIME IS :");
+    console.log(time);
+    
+    const utcDifference = -(new Date().getTimezoneOffset() / 60) - 2; // Difference between User UTC and Workaventure UTC (UTC - UTC+2);
+    console.log("CURRENT UTC - UTC+2 = " + utcDifference);
+
+    const timeClient = today.getHours() - utcDifference;
+    console.log("CURRENT TIME - UCT DIFF = " + timeClient);
+
+    // If time hour is between 9h and 18h it's OPEN else it's CLOSED
+    if(timeClient >= 9 && timeClient <= 18) {
+        console.log(">>> OPEN <<<");
+    } else {
+        console.log(">>> CLOSED <<<");
     }
+    */
+    // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
+    bootstrapExtra().then(() => {
+        console.info('Scripting API Extra ready');
+        console.log("Olá, mundo!");
+    
+    }).catch(e => console.error(e));
+
+}).catch(e => console.error(e));
+
+const openMapOverview = async() => {
+    WA.ui.modal.closeModal();
+    const pos = await WA.player.getPosition();
+    WA.ui.modal.openModal({
+        src: "https://hugoaverty.github.io/map-overview/index.html?x="+pos.x+"&y="+pos.y+"",
+        allow: "fullscreen",
+        title: "Map Overview",
+        allowApi: true,
+        position: "center",
+    });
 }
-function closePopup(){
-    if (typeof currentPopup !== 'undefined') {
-        currentPopup.close();
-        currentPopup = undefined;
-    }
+
+const openTutorial = () => {
+    console.info('Open the tutorial');
+    // @ts-ignore
+    WA.ui.modal.openModal({
+        title: "Tutorial",
+        src: 'https://workadventure.github.io/scripting-api-extra/tutorialv1.html',
+        allow: "fullscreen; clipboard-read; clipboard-write",
+        allowApi: true,
+        position: "right",
+    });
 }
+
+export {};
