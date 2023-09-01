@@ -1647,7 +1647,7 @@
         {
          "name":"script",
          "type":"string",
-         "value":"novo-mapa-b42\/src\/main.ts"
+         "value":"..\/src\/main.ts"
         }, 
         {
          "name":"tilesetCopyright",
