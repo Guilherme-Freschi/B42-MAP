@@ -801,66 +801,67 @@
          "name":"floorLayer",
          "objects":[
                 {
+                 "class":"",
                  "gid":671,
                  "height":16,
                  "id":35,
                  "name":"",
                  "rotation":0,
-                 "type":"",
                  "visible":true,
                  "width":16,
                  "x":1776,
                  "y":616
                 }, 
                 {
+                 "class":"",
                  "gid":670,
                  "height":16,
                  "id":36,
                  "name":"",
                  "rotation":0,
-                 "type":"",
                  "visible":true,
                  "width":16,
                  "x":1760,
                  "y":616
                 }, 
                 {
+                 "class":"",
                  "gid":669,
                  "height":16,
                  "id":37,
                  "name":"",
                  "rotation":0,
-                 "type":"",
                  "visible":true,
                  "width":16,
                  "x":1744,
                  "y":616
                 }, 
                 {
+                 "class":"",
                  "gid":622,
                  "height":16,
                  "id":38,
                  "name":"",
                  "rotation":0,
-                 "type":"",
                  "visible":true,
                  "width":16,
                  "x":1760,
                  "y":600
                 }, 
                 {
+                 "class":"",
                  "gid":654,
                  "height":16,
                  "id":39,
                  "name":"",
                  "rotation":0,
-                 "type":"",
                  "visible":true,
                  "width":16,
                  "x":1760,
                  "y":632
                 }, 
                 {
+                 "class":"area",
                  "height":188,
                  "id":40,
                  "name":"zone_office",
@@ -886,13 +887,13 @@
                          "value":"zone_office"
                         }],
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":130,
                  "x":894.068833333333,
                  "y":799.606166666667
                 }, 
                 {
+                 "class":"variable",
                  "height":0,
                  "id":41,
                  "name":"doorOffice",
@@ -924,13 +925,13 @@
                          "value":true
                         }],
                  "rotation":90,
-                 "type":"variable",
                  "visible":true,
                  "width":0,
                  "x":959.762166666667,
                  "y":936.938833333333
                 }, 
                 {
+                 "class":"area",
                  "height":263.803,
                  "id":42,
                  "name":"arcade",
@@ -951,63 +952,31 @@
                          "value":"https:\/\/b42-wa-assets.s3.amazonaws.com\/novo-mapa-b42\/public\/arcade-song.mp3"
                         }],
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":245.427333333334,
                  "x":1700.59783333333,
                  "y":274.0985
                 }, 
                 {
+                 "class":"area",
                  "height":437.333,
                  "id":43,
                  "name":"jitsiMeetingRoom",
                  "properties":[
                         {
-                         "name":"focusable",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"jitsiRoom",
+                         "name":"bbbMeeting",
                          "type":"string",
-                         "value":"MeetingRoom"
+                         "value":"63deb8b2-1d10-4d50-946e-8847f4309767"
                         }, 
-                        {
-                         "name":"jitsiTrigger",
-                         "type":"string",
-                         "value":""
-                        }, 
-                        {
-                         "name":"zoom_margin",
-                         "type":"float",
-                         "value":0
-                        }],
-                 "rotation":0,
-                 "type":"area",
-                 "visible":true,
-                 "width":356.333,
-                 "x":439.25015,
-                 "y":345.2637
-                }, 
-                {
-                 "height":222.667,
-                 "id":44,
-                 "name":"jitsiMeetingRoom",
-                 "properties":[
                         {
                          "name":"focusable",
                          "type":"bool",
                          "value":true
                         }, 
                         {
-                         "name":"jitsiRoom",
+                         "name":"meetingName",
                          "type":"string",
-                         "value":"MeetingRoom"
-                        }, 
-                        {
-                         "name":"jitsiTrigger",
-                         "type":"string",
-                         "value":""
+                         "value":"Sala #1"
                         }, 
                         {
                          "name":"zoom_margin",
@@ -1015,24 +984,45 @@
                          "value":1
                         }],
                  "rotation":0,
-                 "type":"area",
+                 "visible":true,
+                 "width":356.333,
+                 "x":439.25015,
+                 "y":345.2637
+                }, 
+                {
+                 "class":"area",
+                 "height":222.667,
+                 "id":44,
+                 "name":"jitsiMeetingRoom",
+                 "properties":[
+                        {
+                         "name":"bbbMeeting",
+                         "type":"string",
+                         "value":"63deb8b2-1d10-4d50-946e-8847f4301458"
+                        }, 
+                        {
+                         "name":"focusable",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"meetingName",
+                         "type":"string",
+                         "value":"Sala #7"
+                        }, 
+                        {
+                         "name":"zoom_margin",
+                         "type":"float",
+                         "value":1
+                        }],
+                 "rotation":0,
                  "visible":true,
                  "width":513.667,
                  "x":835.25015,
                  "y":309.9297
                 }, 
                 {
-                 "height":125,
-                 "id":45,
-                 "name":"popup",
-                 "rotation":0,
-                 "type":"area",
-                 "visible":true,
-                 "width":181,
-                 "x":885.58315,
-                 "y":634.7637
-                }, 
-                {
+                 "class":"area",
                  "height":30.9456,
                  "id":46,
                  "name":"website",
@@ -1058,13 +1048,13 @@
                          "value":"Pressione \"ESPA\u00c7O\" ou \"PRESSIONE\" com o mouse \"AQUI\" para abrir o site"
                         }],
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":30.6667,
                  "x":1680.08315,
                  "y":752.4577
                 }, 
                 {
+                 "class":"area",
                  "height":30.9456,
                  "id":47,
                  "name":"website",
@@ -1090,13 +1080,13 @@
                          "value":"Pressione \"ESPA\u00c7O\" ou \"PRESSIONE\" com o mouse \"AQUI\" para abrir o site"
                         }],
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":30.6667,
                  "x":1760.08315,
                  "y":754.4577
                 }, 
                 {
+                 "class":"area",
                  "height":30.9456,
                  "id":48,
                  "name":"website",
@@ -1122,13 +1112,13 @@
                          "value":"Pressione \"ESPA\u00c7O\" ou \"PRESSIONE\" com o mouse \"AQUI\" para abrir o site"
                         }],
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":30.6667,
                  "x":1840.08315,
                  "y":755.1247
                 }, 
                 {
+                 "class":"area",
                  "height":30.9456,
                  "id":49,
                  "name":"website",
@@ -1154,13 +1144,13 @@
                          "value":"Pressione \"ESPA\u00c7O\" ou \"PRESSIONE\" com o mouse \"AQUI\" para abrir o site"
                         }],
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":30.6667,
                  "x":1890.08315,
                  "y":703.1247
                 }, 
                 {
+                 "class":"area",
                  "height":30.9456,
                  "id":50,
                  "name":"website",
@@ -1186,13 +1176,13 @@
                          "value":"Pressione \"ESPA\u00c7O\" ou \"PRESSIONE\" com o mouse \"AQUI\" para abrir o game"
                         }],
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":30.6667,
                  "x":1792.75315,
                  "y":355.7907
                 }, 
                 {
+                 "class":"area",
                  "height":30.9456,
                  "id":51,
                  "name":"website",
@@ -1218,13 +1208,13 @@
                          "value":"Pressione \"ESPA\u00c7O\" ou \"PRESSIONE\" com o mouse \"AQUI\" para abrir o game"
                         }],
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":30.6667,
                  "x":1856.08315,
                  "y":357.1247
                 }, 
                 {
+                 "class":"area",
                  "height":30.9456,
                  "id":52,
                  "name":"website",
@@ -1250,22 +1240,32 @@
                          "value":"Pressione \"ESPA\u00c7O\" ou \"PRESSIONE\" com o mouse \"AQUI\" para abrir o game"
                         }],
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":30.6667,
                  "x":1883.41315,
                  "y":434.4577
                 }, 
                 {
+                 "class":"area",
                  "height":171,
                  "id":54,
                  "name":"zone_map_overview",
                  "rotation":0,
-                 "type":"area",
                  "visible":true,
                  "width":124.614,
                  "x":1120.35966666667,
                  "y":658.5
+                }, 
+                {
+                 "class":"area",
+                 "height":96,
+                 "id":55,
+                 "name":"intro",
+                 "rotation":0,
+                 "visible":true,
+                 "width":160,
+                 "x":893,
+                 "y":671
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1626,36 +1626,16 @@
          "y":0
         }],
  "nextlayerid":31,
- "nextobjectid":55,
+ "nextobjectid":59,
  "orientation":"orthogonal",
  "properties":[
         {
-         "name":"mapCopyright",
-         "type":"string",
-         "value":"WA Village is the sole property of 100 Roads Inc. All rights are reserved by 100 Roads inc. All contents of the map may not be reproduced, distributed (for sale or otherwise), or create derivative works of the copyrighted work without the express written permission of 100 Roads Inc."
-        }, 
-        {
-         "name":"mapImage",
-         "type":"string",
-         "value":"wa-headquarters.png"
-        }, 
-        {
-         "name":"mapName",
-         "type":"string",
-         "value":"WA Village"
-        }, 
-        {
          "name":"script",
          "type":"string",
-         "value":"https:\/\/unpkg.com\/@workadventure\/scripting-api-extra@^1\/dist\/bundle.js"
-        }, 
-        {
-         "name":"tilesetCopyright",
-         "type":"string",
-         "value":"This map is the sole property of 100 Roads Inc. All rights are reserved by 100 Roads inc. All contents of the map may not be reproduced, distributed (for sale or otherwise), or create derivative works of the copyrighted work without the express written permission of 100 Roads Inc."
+         "value":"https:\/\/b42-wa-assets.s3.amazonaws.com\/novo-mapa-b42\/src\/scripting-api-extra.js\nhttps:\/\/b42-wa-assets.s3.amazonaws.com\/novo-mapa-b42\/src\/popup.js"
         }],
  "renderorder":"right-down",
- "tiledversion":"1.10.2",
+ "tiledversion":"1.9.2",
  "tileheight":16,
  "tilesets":[
         {
@@ -1879,6 +1859,6 @@
         }],
  "tilewidth":16,
  "type":"map",
- "version":"1.10",
+ "version":"1.9",
  "width":150
 }

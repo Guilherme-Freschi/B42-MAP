@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Produto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .product-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-info h2 {
+            margin: 0;
+        }
+
+        .product-info span {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .product-info button {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .product-info button:hover {
+            background-color: #0056b3;
+        }
+
+        .shipping-info {
+            margin-top: 20px;
+        }
+
+        .shipping-info p {
+            margin: 0;
+        }
+
+        .shipping-info button {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .shipping-info button:hover {
+            background-color: #218838;
+        }
+
+        .checkout-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="product-info">
+            <h2>X Produto</h2>
+            <span>R$ 100,00</span>
+            <button>Adicionar ao carrinho</button>
+        </div>
+
+        <div class="shipping-info">
+            <p>Frete: R$ 10,00</p>
+            <button>Calcular frete</button>
+        </div>
+
+        <button class="checkout-btn">Finalizar compra</button>
+    </div>
+</body>
+</html>
